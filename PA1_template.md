@@ -1,4 +1,5 @@
 # Reproducible Research: Peer Assessment 1
+Author: gutierro  
 
 
 ### Data
@@ -124,15 +125,19 @@ In the previous step we can observed that only the steps valiable has `NA` value
 #####4.3 Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
 ```r
-activity.clean.df <- activity.df %>%
-        mutate(steps = ifelse(is.na(steps),0,steps))
+df<-activity.df %>% 
+        group_by(interval) %>% 
+        summarise(avg_steps=mean(steps,na.rm=TRUE))
+
+activity.clean.df <- merge(activity.df,df , by = "interval")
+        
+activity.clean.df<- activity.clean.df %>%
+        mutate(steps = ifelse(is.na(steps),avg_steps,steps))
 ```
 
 #####4.4 Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
-In the first part I have used the option `na.rm=TRUE` of the `sum()` function,  therefore the results are the same for me.  
-However if I would'have done it that wayin the first part, the `Frecuency` would not have been correct for the fist 1st quartile of the histogram (0-5000) and the median would be different to this part as well. 
-In the code bellow I have create a different data set `df2`to indicae that it has been calculated differently to the 1st part. 
+The missing data has quite an impact as we observe the difference the mean and median values in repect the first part.
 
 
 
@@ -142,7 +147,7 @@ df2<-activity.clean.df %>%
         summarise(total_steps=sum(steps))
 
 hist(df2$total_steps, main="Frequency of steps per day",
-     xlab="Steps", ylab="Number of days", labels=TRUE, ylim=c(0,30))
+     xlab="Steps", ylab="Number of days", labels=TRUE, ylim=c(0,35))
 ```
 
 ![](./PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
@@ -152,7 +157,7 @@ mean(df2$total_steps)
 ```
 
 ```
-## [1] 9354.23
+## [1] 10766.19
 ```
 
 ```r
@@ -160,7 +165,7 @@ median(df2$total_steps)
 ```
 
 ```
-## [1] 10395
+## [1] 10766.19
 ```
 
 ###5. Are there differences in activity patterns between weekdays and weekends?
