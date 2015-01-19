@@ -23,22 +23,6 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 ```r
 library("dplyr")
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-## 
-## The following object is masked from 'package:stats':
-## 
-##     filter
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 activity.df <- read.csv("activity.csv")
 ```
 

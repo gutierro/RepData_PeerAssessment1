@@ -25,7 +25,7 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 
 ### 1. Loading and preprocessing the data
-```{r}
+```{r,message=FALSE}
 library("dplyr")
 activity.df <- read.csv("activity.csv")
 ```
@@ -125,7 +125,7 @@ For this part the weekdays() function may be of some help here. Use the dataset 
 
 The package `date` and `lattice` are required for this part
 
-```{r}
+```{r,message=FALSE}
 library("date")
 library("lattice")
 activity.clean.df$wday<-ifelse(as.POSIXlt(activity.clean.df$date)$wday == c(0,6),"weekend","weekday")
